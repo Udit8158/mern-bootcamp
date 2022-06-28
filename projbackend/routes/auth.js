@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { signup } = require("../controllers/auth"); // Importing like this
+const { signup, signin } = require("../controllers/auth"); // Importing like this
 const { body, validationResult } = require("express-validator"); // For validation
 
 // For chaning with /api/.. we must use router not app .
@@ -20,6 +20,19 @@ router.post(
     body("email").isEmail().withMessage("Provide a valid email"),
   ],
   signup
+);
+router.post(
+  "/signin",
+  // Validation stuff as a middleware
+  [
+    // Password validation
+    body("encry_password")
+      .isLength({ min: 5 })
+      .withMessage("Password field is required"),
+    // Email validation
+    body("email").isEmail().withMessage("Provide your valid email"),
+  ],
+  signin
 );
 
 // Export the router (means all router end point)

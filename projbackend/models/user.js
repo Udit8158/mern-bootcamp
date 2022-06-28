@@ -64,7 +64,7 @@ const userSchema = new Schema(
 userSchema.methods = {
   // For authentication
   auhenticate: function (plainPassword) {
-    return this.securePassoword(plainPassword) === this.encry_password;
+    return this.securePassword(plainPassword) === this.encry_password;
   },
   // It generate hash password from user's plain password
   securePassword: function (plainPassword) {
