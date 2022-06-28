@@ -6,6 +6,7 @@ const { body, validationResult } = require("express-validator"); // For validati
 // For chaning with /api/.. we must use router not app .
 router.post(
   "/signup",
+  // Validation stuff as a middleware
   [
     // Name validation
     body("name")

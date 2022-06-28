@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const crypto = require("crypto"); // crypto is used for generating hash pass.
-// import { v4 as uuidv4 } from "uuid"; // generate unique id (string)
 const { v4: uuidv4 } = require("uuid");
 
 // Making a schema
@@ -28,7 +27,6 @@ const userSchema = new Schema(
       type: String,
       trim: true,
     },
-    // TODO: come back here
     encry_password: {
       type: String,
       required: true,
@@ -49,7 +47,7 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-// Not working like hitesh sir for me so I add one line in auth controller file and manually set the encry_password.
+// TODO:  Not working like hitesh sir for me so I add one line in auth controller file and manually set the encry_password.
 // vitual field
 // userSchema
 //   .virtual("password")
@@ -82,16 +80,6 @@ userSchema.methods = {
     }
   },
 };
-
-// Testing
-// const User = mongoose.model("User", userSchema);
-// const user = new User({
-//   name: "U",
-//   lastName: "K",
-//   email: "yo@gmail.com",
-//   encry_password: "lsdjfl",
-// });
-// console.log(user);
 
 // Exporting the schema
 module.exports = mongoose.model("User", userSchema);
