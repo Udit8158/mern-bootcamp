@@ -13,7 +13,7 @@ router.post(
       .isLength({ min: 3 })
       .withMessage("Name should be minimum 3 letters"),
     // Password validation
-    body("encry_password")
+    body("password")
       .isLength({ min: 5 })
       .withMessage("Password should be minimum 5 letters"),
     // Email validation
@@ -26,7 +26,7 @@ router.post(
   // Validation stuff as a middleware
   [
     // Password validation
-    body("encry_password")
+    body("password")
       .isLength({ min: 5 })
       .withMessage("Password field is required"),
     // Email validation

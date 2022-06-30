@@ -49,16 +49,16 @@ const userSchema = new Schema(
 
 // TODO:  Not working like hitesh sir for me so I add one line in auth controller file and manually set the encry_password.
 // vitual field
-// userSchema
-//   .virtual("password")
-//   .set(function (password) {
-//     // this._password = password; //TODO: not understand _password
-//     this.salt = uuidv4();
-//     this.encry_password = this.securePassword(password);
-//   })
-//   .get(function () {
-//     return this._password;
-//   });
+userSchema
+  .virtual("password")
+  .set(function (password) {
+    // this._password = password; //TODO: not understand _password
+    this.salt = uuidv4();
+    this.encry_password = this.securePassword(password);
+  })
+  .get(function () {
+    return this.password;
+  });
 
 // Defining some method
 userSchema.methods = {
@@ -71,7 +71,7 @@ userSchema.methods = {
     if (!plainPassword) return "";
     try {
       const hash = crypto
-        .createHmac("sha256", uuidv4())
+        .createHmac("sha256", this.salt)
         .update(plainPassword)
         .digest("hex");
       return hash;

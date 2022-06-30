@@ -14,7 +14,7 @@ exports.signup = (req, res) => {
     });
   }
   const user = new User(req.body);
-  user.encry_password = user.securePassword(user.encry_password);
+
   user.save((err, user) => {
     if (err) {
       res.status(400).json({
@@ -29,7 +29,7 @@ exports.signup = (req, res) => {
 // signin controller
 exports.signin = (req, res) => {
   // Get the email and password
-  const { email, encry_password } = req.body;
+  const { email, password } = req.body;
 
   // Cheecking for validation errors
   const errors = validationResult(req);
@@ -44,15 +44,15 @@ exports.signin = (req, res) => {
   User.findOne({ email }, (err, user) => {
     // 1st when no user exist with the email
     if (err || !user) {
-      return res.sendStatus(400).json({
+      return res.staus(400).json({
         error: "Your email is not exist.",
       });
     }
 
     // 2nd authentication of password fail
-    if (!user.auhenticate(encry_password)) {
+    if (!user.auhenticate(password)) {
       // with these return statement code will not only excute farther if (these 2 checks return not authenticate user.)
-      return res.sendStatus(400).json({
+      return res.status(400).json({
         error: "Your email and password not matched",
       });
     }
@@ -77,6 +77,14 @@ exports.signin = (req, res) => {
     });
   });
 };
+
+// Testing
+
+// exports.signin = (req, res) => {
+//   console.log(req.body);
+
+//   res.send("Sign in");
+// };
 
 // module.exports = { signup, signout, signin };
 
