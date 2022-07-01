@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { signup, signin, signout } = require("../controllers/auth"); // Importing like this
+const { signup, signin, signout, isSignedIn } = require("../controllers/auth"); // Importing like this
 const { body, validationResult } = require("express-validator"); // For validation
 
 // For chaning with /api/.. we must use router not app .
@@ -36,6 +36,11 @@ router.post(
 );
 
 router.post("/signout", signout);
+
+// Protected routes
+router.get("/testroute", isSignedIn, (req, res) => {
+  res.send(req.auth);
+});
 
 // Export the router (means all router end point)
 module.exports = router;

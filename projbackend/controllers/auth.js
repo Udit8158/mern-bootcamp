@@ -90,3 +90,32 @@ exports.signout = (req, res) => {
     message: "Signout successfully",
   });
 };
+
+// protected test route middleware
+exports.isSignedIn = expressJwt({
+  secret: process.env.SECRET_KEY,
+  userProperty: "auth", // this auth give user an object containing user id.
+});
+
+// custom middleware
+exports.isAuthenticated = (req, res, next) => {
+  const checker = req.profile && req.auth && req.profile._id === req.auth._id;
+
+  if (!checker) {
+    return res.status(403).json({
+      error: "Acess Denied.",
+    });
+  }
+
+  next();
+};
+
+exports.isAdmin = (req, res, next) => {
+  if (req.profile.role === 0) {
+    return res.status(403).json({
+      error: "Acess Denied by Admin.",
+    });
+  }
+
+  next();
+};
