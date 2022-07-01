@@ -43,18 +43,21 @@ exports.signin = (req, res) => {
   // Finding the user with the email in db (these functions can take callback with err and the postivie(user) params )
   User.findOne({ email }, (err, user) => {
     // 1st when no user exist with the email
-    if (err || !user) {
+    if (err) {
+      return res.status(400).json({
+        error: "OOPS, there is an error.",
+      });
+    }
+    if (!user) {
       return res.status(200).json({
-        error: "Your email is not exist.",
+        error: "Your email is not exist. Please signup with this emali first.",
       });
     }
 
     // 2nd authentication of password fail
     if (!user.auhenticate(password)) {
-      console.log("INSIDE PASSWORD VALIDATION");
-
       // with these return statement code will not only excute farther if (these 2 checks return not authenticate user.)
-      res.status(400).json({
+      return res.status(400).json({
         error: "Your email and password not matched",
       });
     }
@@ -79,15 +82,3 @@ exports.signin = (req, res) => {
     });
   });
 };
-
-// Testing
-
-// exports.signin = (req, res) => {
-//   console.log(req.body);
-
-//   res.send("Sign in");
-// };
-
-// module.exports = { signup, signout, signin };
-
-// Exporting like this.
