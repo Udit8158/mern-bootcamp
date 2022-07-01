@@ -82,3 +82,11 @@ exports.signin = (req, res) => {
     });
   });
 };
+
+// Sign out route
+exports.signout = (req, res) => {
+  res.clearCookie("token");
+  res.json({
+    message: "Signout successfully",
+  });
+};
